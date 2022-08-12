@@ -38,21 +38,35 @@ const MORSE_TABLE = {
 };
 
 
-let expr = '0000101110000011111100000010110000111010**********00000000110000111111**********00101111100000101110000011111100001111100000101110000000101100000011110000001111000000101000000011100000111110';
-
 function decode(expr) {
     const space = '**********';
-    let arrOfWords = [];
+    let arr = [];
     for (let i = 0; i < expr.length; i += 10) {
-        arrOfWords.push(expr.substr(i, 10));
+        arr.push(expr.substr(i, 10));
     }
-    console.log(arrOfWords);
+
+    let morzArray = [];
+    let str = '';
+    let char = '';
+    arr.forEach((item) => {
+        morzArray.push(item.replace(/11/g, '-').replace(/10/g, '.').replace(/0/g, ''));
+    });
+
+    
+    for (let j = 0; j < morzArray.length; j++) {
+        let currentSymbol = morzArray[j];
+        if (currentSymbol === '**********') {
+            char = ' ';
+        } else {
+            char = MORSE_TABLE[currentSymbol];
+        };
+        
+        str = str + char;
+
+    };
+
+   return str;
 }
-decode(expr);
-
-// result
-//['0000101110', '0000111111', '0000001011', '0000111010', '**********', '0000000011', '0000111111', '**********', '0010111110', '0000101110', '0000111111', '0000111110', '0000101110', '0000001011', '0000001111', '0000001111', '0000001010', '0000001110', '0000111110']
-
 
 
 module.exports = {
